@@ -1,6 +1,6 @@
 import React from "react";
 
-const VarianDorayaki = () => {
+const VarianDorayaki = ({ varian }) => {
   return (
     <div
       style={{
@@ -15,13 +15,15 @@ const VarianDorayaki = () => {
       }}
     >
       <img
-        src={"/image/doraemon.jpg"}
+        src={`http://localhost:5000/${varian.varianimage}`}
         alt={""}
         width={"100%"}
         height={"180px"}
       />
-      <h2 style={{ marginTop: "15px", marginBottom: "10px" }}>Varian Rasa</h2>
-      <p>deskripsi</p>
+      <h2 style={{ marginTop: "15px", marginBottom: "10px" }}>
+        {varian.varianname}
+      </h2>
+      <p>{varian.variandescription}</p>
     </div>
   );
 };

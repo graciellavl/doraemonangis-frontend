@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import VarianDorayaki from "./Card/VarianDorayaki";
 import FormVarian from "./Form/FormVarian";
 import BaseModal from "./Modal/BaseModal";
 
+import axios from "axios";
+
 const Dorayaki = () => {
+  const [varianList, setVarianList] = useState([]);
   const [open, setOpen] = useState(false);
   const closeModal = () => {
     setOpen(false);
   };
 
-  const varian = {
-    name: "lala",
-    desc: "lala",
-  };
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/varian")
+      .then((res) => setVarianList(res.data))
+      .catch((err) => console.err(err));
+  }, []);
 
   return (
     <div style={{ margin: "60px 80px 0 80px", height: "100%" }}>
@@ -36,14 +41,13 @@ const Dorayaki = () => {
           height: "60vh",
         }}
       >
-        <VarianDorayaki />
-        <VarianDorayaki />
-        <VarianDorayaki />
-        <VarianDorayaki />
+        {varianList.map((varian) => {
+          return <VarianDorayaki varian={varian} key={varian._id} />;
+        })}
       </div>
       {open && (
         <BaseModal closeModal={closeModal}>
-          <FormVarian currentVarian={varian} />
+          <FormVarian />
         </BaseModal>
       )}
     </div>

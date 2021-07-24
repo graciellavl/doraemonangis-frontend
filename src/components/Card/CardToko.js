@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const CardToko = () => {
+const CardToko = ({toko}) => {
   return (
     <div
       style={{
@@ -10,21 +10,23 @@ const CardToko = () => {
         borderRadius: "20px",
         border: "1px solid rgba(0, 0, 0, 0.25)",
         padding: "20px",
-        maxWidth: "320px",
+        width: "320px",
         height: "200px",
         margin: "20px 0",
         display: "flex",
       }}
     >
       <img
-        src={"/image/doraemon.jpg"}
+        src={`http://localhost:5000/${toko.storeimage}`}
         alt={""}
         width={"150px"}
         height={"100%"}
       />
       <div style={{ marginLeft: "15px" }}>
-        <h2 style={{ marginBottom: "10px" }}>Varian Rasa</h2>
-        <p>deskripsi</p>
+        <h2 style={{ marginBottom: "10px" }}>{toko.storename}</h2>
+        <p>{toko.street}</p>
+        <p>{toko.kecamatan}</p>
+        <p>{toko.provinsi}</p>
       </div>
       <Link
         to={`toko/${"dorayaki"}`}
