@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Navbar = ({ nav, eventhandler }) => {
   const NavbarStyle = {
@@ -13,6 +14,15 @@ const Navbar = ({ nav, eventhandler }) => {
     fontWeight: 600,
     backgroundColor: "#0097F0",
   };
+
+  const [listToko, setListToko] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/store")
+      .then((res) => setListToko(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div
@@ -65,6 +75,28 @@ const Navbar = ({ nav, eventhandler }) => {
             Daftar Toko
           </div>
         </Link>
+        <hr style={{ width: "80%", border: '1px solid black' }} />
+        {listToko &&
+          listToko.map((toko) => {
+            return (
+              <Link
+                to={`/toko/${toko._id}`}
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <div
+                  onClick={() => eventhandler(`/toko/${toko._id}`)}
+                  style={
+                    nav.includes(`/toko/${toko._id}`)
+                      ? NavbarActiveStyle
+                      : NavbarStyle
+                  }
+                  className={"onHover"}
+                >
+                  {toko.storename}
+                </div>
+              </Link>
+            );
+          })}
       </div>
     </div>
   );

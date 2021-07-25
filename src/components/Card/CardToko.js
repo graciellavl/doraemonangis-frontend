@@ -29,7 +29,7 @@ const CardToko = ({toko}) => {
         <p>{toko.provinsi}</p>
       </div>
       <Link
-        to={`toko/${"dorayaki"}`}
+        to={`toko/${toko._id}`}
         style={{ color: "#333333", textDecoration: "none" }}
       >
         <div style={{ position: "absolute", bottom: "15px", right: "15px" }}>

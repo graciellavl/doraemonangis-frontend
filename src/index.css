@@ -93,3 +93,7 @@ input {
   text-decoration: none;
   cursor: pointer;
 }
+
+td, th {
+  padding: 5px 10px;
+}

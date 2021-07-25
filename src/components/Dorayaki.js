@@ -16,7 +16,7 @@ const Dorayaki = () => {
     axios
       .get("http://localhost:5000/varian")
       .then((res) => setVarianList(res.data))
-      .catch((err) => console.err(err));
+      .catch((err) => console.log(err));
   }, []);
 
   return (

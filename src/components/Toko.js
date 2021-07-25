@@ -17,7 +17,7 @@ const Toko = () => {
     axios
       .get("http://localhost:5000/store")
       .then((res) => setListToko(res.data))
-      .catch((err) => console.err(err));
+      .catch((err) => console.log(err));
   }, []);
 
 
