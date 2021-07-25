@@ -16,6 +16,12 @@ const DetailToko = () => {
     setOpenTambahStok(false);
     setOpenTransfer(false);
   };
+  const [search, setSearch] = useState("");
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearch(value);
+  };
 
   useEffect(() => {
     axios
@@ -36,12 +42,14 @@ const DetailToko = () => {
     for (var i = 0; i < varian.length; i++) {
       console.log(varian[i]);
       if (id === varian[i]._id) return varian[i].varianname;
+      else return "";
     }
   };
 
   const getDesc = (id) => {
     for (var i = 0; i < varian.length; i++) {
       if (id === varian[i]._id) return varian[i].variandescription;
+      else return "";
     }
   };
 
@@ -51,9 +59,17 @@ const DetailToko = () => {
       <div>
         <h1>{detail.storename}</h1>
         <div style={{ position: "relative" }}>
-          <h2>{detail.street}</h2>
-          <h2>{detail.kecamatan}</h2>
-          <h2>{detail.provinsi}</h2>
+          <h2>
+            Jalan: <span style={{ fontWeight: "normal" }}>{detail.street}</span>
+          </h2>
+          <h2>
+            Kecamatan:{" "}
+            <span style={{ fontWeight: "normal" }}>{detail.kecamatan}</span>
+          </h2>
+          <h2>
+            Provinsi:{" "}
+            <span style={{ fontWeight: "normal" }}>{detail.provinsi}</span>
+          </h2>
           <div
             style={{
               position: "absolute",
@@ -89,6 +105,7 @@ const DetailToko = () => {
         type="text"
         placeholder={"Cari Stock"}
         style={{ margin: "30px auto" }}
+        onChange={(e) => handleChange(e)}
       />
       <table
         style={{
@@ -103,15 +120,27 @@ const DetailToko = () => {
           <th>Stok</th>
         </thead>
         <tbody>
-          {stock.stock.map((stock) => {
-            return (
-              <tr style={{ background: "#B9E5FF" }} key={stock._id}>
-                <td>{getName(stock.varianId)}</td>
-                <td>{getDesc(stock.varianId)}</td>
-                <td>{stock.count}</td>
-              </tr>
-            );
-          })}
+          {stock.stock
+            .filter((stock) =>
+              getName(stock.varianId)
+                .toLowerCase()
+                .includes(search.toLowerCase())
+            )
+            .map((stock, index) => {
+              return (
+                <tr
+                  style={{
+                    background: index % 2 === 0 ? "#B9E5FF" : "",
+                    textAlign: "center",
+                  }}
+                  key={stock._id}
+                >
+                  <td>{getName(stock.varianId)}</td>
+                  <td>{getDesc(stock.varianId)}</td>
+                  <td>{stock.count}</td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
       {openTransfer && (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import CardToko from "./Card/CardToko";
 import BaseModal from "./Modal/BaseModal";
 
-import axios from 'axios';
+import axios from "axios";
 
 const Toko = () => {
   const [listToko, setListToko] = useState([]);
@@ -12,6 +12,7 @@ const Toko = () => {
     setOpenToko(false);
     setOpenTransfer(false);
   };
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     axios
@@ -20,6 +21,12 @@ const Toko = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearch(value);
+  };
+
+  if (!listToko) return <div>Loading . . .</div>;
 
   return (
     <div style={{ margin: "60px 80px 0 80px", height: "100%" }}>
@@ -55,7 +62,11 @@ const Toko = () => {
           </button>
         </div>
       </div>
-      <input type="text" placeholder={"Cari dorayaki"} />
+      <input
+        type="text"
+        placeholder={"Cari toko (Nama/ Kecamatan/ Jalan/ Provinsi)"}
+        onChange={(e) => handleChange(e)}
+      />
       <div
         style={{
           marginTop: "20px",
@@ -66,9 +77,17 @@ const Toko = () => {
           height: "60vh",
         }}
       >
-        {listToko.map((toko) => {
-          return <CardToko toko={toko} key={toko._id} />;
-        })}
+        {listToko
+          .filter(
+            (toko) =>
+              toko.storename.toLowerCase().includes(search.toLowerCase()) ||
+              toko.kecamatan.toLowerCase().includes(search.toLowerCase()) ||
+              toko.street.toLowerCase().includes(search.toLowerCase()) ||
+              toko.provinsi.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((toko) => {
+            return <CardToko toko={toko} key={toko._id} />;
+          })}
       </div>
 
       {openToko && (

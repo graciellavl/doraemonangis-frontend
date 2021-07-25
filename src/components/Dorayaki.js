@@ -7,6 +7,7 @@ import axios from "axios";
 
 const Dorayaki = () => {
   const [varianList, setVarianList] = useState([]);
+  const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const closeModal = () => {
     setOpen(false);
@@ -19,6 +20,13 @@ const Dorayaki = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearch(value);
+  };
+
+  if (!varianList) return <div>Loading . . .</div>;
+
   return (
     <div style={{ margin: "60px 80px 0 80px", height: "100%" }}>
       <div style={{ position: "relative" }}>
@@ -30,7 +38,11 @@ const Dorayaki = () => {
           + Tambah varian
         </button>
       </div>
-      <input type="text" placeholder={"Cari dorayaki"} />
+      <input
+        type="text"
+        placeholder={"Cari dorayaki"}
+        onChange={(e) => handleChange(e)}
+      />
       <div
         style={{
           marginTop: "20px",
@@ -41,9 +53,11 @@ const Dorayaki = () => {
           height: "60vh",
         }}
       >
-        {varianList.map((varian) => {
-          return <VarianDorayaki varian={varian} key={varian._id} />;
-        })}
+        {varianList
+          .filter((varian) => varian.varianname.toLowerCase().includes(search.toLowerCase()))
+          .map((varian) => {
+            return <VarianDorayaki varian={varian} key={varian._id} />;
+          })}
       </div>
       {open && (
         <BaseModal closeModal={closeModal}>
