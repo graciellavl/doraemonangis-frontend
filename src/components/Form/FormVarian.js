@@ -58,6 +58,7 @@ const FormVarian = ({ currentVarian, eventhandler }) => {
         .then(function (response) {
           console.log(JSON.stringify(response.data));
           eventhandler();
+          swal("Success", "Varian berhasil ditambahkan!", "success");
         })
         .catch(function (error) {
           console.log(error);
@@ -74,15 +75,17 @@ const FormVarian = ({ currentVarian, eventhandler }) => {
         id="namaVarian"
         name="namaVarian"
         value={varian.name}
+        placeholder={"Varian Baru"}
         onChange={(e) => handleInput(e, "name")}
       />
       <br />
       <br />
-      <label htmlFor="namaVarian">Deskripsi</label>
+      <label htmlFor="descVarian">Deskripsi</label>
       <input
         type="text"
         id="descVarian"
         name="descVarian"
+        placeholder={"Penjelasan Varian"}
         value={varian.desc}
         onChange={(e) => handleInput(e, "desc")}
       />
@@ -103,7 +106,7 @@ const FormVarian = ({ currentVarian, eventhandler }) => {
         onClick={() => submitAction()}
         style={{ height: "30px", margin: "auto" }}
       >
-        Add Varian
+        Tambah Varian
       </button>
     </div>
   );

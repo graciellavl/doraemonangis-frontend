@@ -3,6 +3,7 @@ import CardToko from "./Card/CardToko";
 import BaseModal from "./Modal/BaseModal";
 
 import axios from "axios";
+import FormToko from "./Form/FormToko";
 
 const Toko = () => {
   const [listToko, setListToko] = useState([]);
@@ -13,13 +14,23 @@ const Toko = () => {
     setOpenTransfer(false);
   };
   const [search, setSearch] = useState("");
+  const [submit, setSubmit] = useState(0);
 
-  useEffect(() => {
+  const getData = () => {
     axios
       .get("http://localhost:5000/store")
       .then((res) => setListToko(res.data))
       .catch((err) => console.log(err));
-  }, []);
+  };
+
+  const submitForm = (data) => {
+    setSubmit(submit + 1);
+    closeModal();
+  };
+
+  useEffect(() => {
+    getData();
+  }, [submit]);
 
   const handleChange = (e) => {
     const { value } = e.target;
@@ -50,23 +61,32 @@ const Toko = () => {
         }}
       >
         <h1>Daftar Toko</h1>
-        <div style={{ margin: "10px" }}>
-          <button
-            style={{ height: "50px" }}
-            className={"onHover"}
-            onClick={() => setOpenTransfer(true)}
-          >
-            Transfer Stok
-          </button>
-        </div>
-        <div style={{ margin: "10px" }}>
-          <button
-            style={{ height: "50px" }}
-            className={"onHover"}
-            onClick={() => setOpenToko(true)}
-          >
-            + Tambah Toko
-          </button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexDirection: mobile ? "column" : "row",
+          }}
+        >
+          <div style={{ margin: "10px" }}>
+            <button
+              style={{ height: "50px" }}
+              className={"onHover"}
+              onClick={() => setOpenTransfer(true)}
+            >
+              Transfer Stok
+            </button>
+          </div>
+          <div style={{ margin: "10px" }}>
+            <button
+              style={{ height: "50px" }}
+              className={"onHover"}
+              onClick={() => setOpenToko(true)}
+            >
+              + Tambah Toko
+            </button>
+          </div>
         </div>
       </div>
       <input
@@ -99,8 +119,7 @@ const Toko = () => {
 
       {openToko && (
         <BaseModal closeModal={closeModal}>
-          toko
-          {/* <FormVarian currentVarian={varian} /> */}
+          <FormToko eventhandler={submitForm} />
         </BaseModal>
       )}
 

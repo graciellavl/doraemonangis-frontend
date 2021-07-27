@@ -96,7 +96,7 @@ const DetailToko = () => {
               className={"onHover"}
               onClick={() => setOpenTambahStok(true)}
             >
-              + Tambah Toko
+              + Tambah Stok
             </button>
           </div>
         </div>
