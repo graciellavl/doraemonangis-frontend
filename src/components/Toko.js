@@ -26,35 +26,42 @@ const Toko = () => {
     setSearch(value);
   };
 
+  const [mobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 1024);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   if (!listToko) return <div>Loading . . .</div>;
 
   return (
     <div style={{ margin: "60px 80px 0 80px", height: "100%" }}>
-      <div style={{ position: "relative" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexDirection: mobile ? "column" : "row",
+        }}
+      >
         <h1>Daftar Toko</h1>
-        <div
-          style={{
-            position: "absolute",
-            right: 0,
-            top: "20%",
-            height: "100%",
-            display: "flex",
-          }}
-        >
+        <div style={{ margin: "10px" }}>
           <button
-            style={{
-              height: "80%",
-              marginRight: "20px",
-            }}
+            style={{ height: "50px" }}
             className={"onHover"}
             onClick={() => setOpenTransfer(true)}
           >
             Transfer Stok
           </button>
+        </div>
+        <div style={{ margin: "10px" }}>
           <button
-            style={{
-              height: "80%",
-            }}
+            style={{ height: "50px" }}
             className={"onHover"}
             onClick={() => setOpenToko(true)}
           >

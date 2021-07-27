@@ -17,7 +17,7 @@ const Home = () => {
         width={"70%"}
       />
       <h1 style={{margin: '20px 0 10px 0'}}>Selamat datang</h1>
-      <div>Graciella Valeska Liander | 18219076</div>
+      <div>Graciella Valeska Liander | 18219075</div>
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const Navbar = ({ nav, eventhandler }) => {
+  let { pathname } = useLocation();
   const NavbarStyle = {
     margin: "0px 30px",
     padding: "10px 20px",
@@ -35,6 +36,7 @@ const Navbar = ({ nav, eventhandler }) => {
         bottom: "0px",
       }}
     >
+      {console.log(pathname)}
       <Link
         to="/"
         style={{
@@ -59,8 +61,10 @@ const Navbar = ({ nav, eventhandler }) => {
       <div style={{ color: "white", margin: "10px", overflowY: "auto" }}>
         <Link to="/dorayaki" style={{ textDecoration: "none", color: "white" }}>
           <div
-            onClick={() => eventhandler("Dorayaki")}
-            style={nav.includes("Dorayaki") ? NavbarActiveStyle : NavbarStyle}
+            onClick={() => eventhandler("dorayaki")}
+            style={
+              pathname.includes("dorayaki") ? NavbarActiveStyle : NavbarStyle
+            }
             className={"onHover"}
           >
             Daftar Dorayaki
@@ -68,25 +72,26 @@ const Navbar = ({ nav, eventhandler }) => {
         </Link>
         <Link to="/toko" style={{ textDecoration: "none", color: "white" }}>
           <div
-            onClick={() => eventhandler("Toko")}
-            style={nav.includes("Toko") ? NavbarActiveStyle : NavbarStyle}
+            onClick={() => eventhandler("toko")}
+            style={pathname === "/toko" ? NavbarActiveStyle : NavbarStyle}
             className={"onHover"}
           >
             Daftar Toko
           </div>
         </Link>
-        <hr style={{ width: "80%", border: '1px solid black' }} />
+        <hr style={{ width: "80%", border: "1px solid black" }} />
         {listToko &&
           listToko.map((toko) => {
             return (
               <Link
                 to={`/toko/${toko._id}`}
                 style={{ textDecoration: "none", color: "white" }}
+                key={toko._id}
               >
                 <div
                   onClick={() => eventhandler(`/toko/${toko._id}`)}
                   style={
-                    nav.includes(`/toko/${toko._id}`)
+                    pathname.includes(`/toko/${toko._id}`)
                       ? NavbarActiveStyle
                       : NavbarStyle
                   }
