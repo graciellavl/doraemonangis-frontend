@@ -36,7 +36,6 @@ const Navbar = ({ nav, eventhandler }) => {
         bottom: "0px",
       }}
     >
-      {console.log(pathname)}
       <Link
         to="/"
         style={{
@@ -79,29 +78,31 @@ const Navbar = ({ nav, eventhandler }) => {
             Daftar Toko
           </div>
         </Link>
-        <hr style={{ width: "80%", border: "1px solid black" }} />
-        {listToko &&
-          listToko.map((toko) => {
-            return (
-              <Link
-                to={`/toko/${toko._id}`}
-                style={{ textDecoration: "none", color: "white" }}
-                key={toko._id}
-              >
-                <div
-                  onClick={() => eventhandler(`/toko/${toko._id}`)}
-                  style={
-                    pathname.includes(`/toko/${toko._id}`)
-                      ? NavbarActiveStyle
-                      : NavbarStyle
-                  }
-                  className={"onHover"}
+        <hr style={{ width: "80%", border: "1px solid white" }} />
+        <div style={{ overflowY: "auto", height: "calc(100vh - 300px)" }}>
+          {listToko &&
+            listToko.map((toko) => {
+              return (
+                <Link
+                  to={`/toko/${toko._id}`}
+                  style={{ textDecoration: "none", color: "white" }}
+                  key={toko._id}
                 >
-                  {toko.storename}
-                </div>
-              </Link>
-            );
-          })}
+                  <div
+                    onClick={() => eventhandler(`/toko/${toko._id}`)}
+                    style={
+                      pathname.includes(`/toko/${toko._id}`)
+                        ? NavbarActiveStyle
+                        : NavbarStyle
+                    }
+                    className={"onHover"}
+                  >
+                    {toko.storename}
+                  </div>
+                </Link>
+              );
+            })}
+        </div>
       </div>
     </div>
   );

@@ -52,11 +52,8 @@ const FormVarian = ({ currentVarian, eventhandler }) => {
         data: data,
       };
 
-      console.log(...data);
-
       axios(config)
         .then(function (response) {
-          console.log(JSON.stringify(response.data));
           eventhandler();
           swal("Success", "Varian berhasil ditambahkan!", "success");
         })
