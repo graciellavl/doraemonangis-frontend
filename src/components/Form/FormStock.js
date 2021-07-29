@@ -6,7 +6,9 @@ import swal from "sweetalert";
 
 const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
   const [stock, setStock] = useState(
-    currentVarian ? currentVarian : { storeId: storeId, stock: [] }
+    currentVarian
+      ? { storeId: currentVarian.storeId, stock: currentVarian.stock }
+      : { storeId: storeId, stock: [] }
   );
 
   const [newStock, setNewStock] = useState({ varianId: "", count: 0 });
@@ -20,7 +22,7 @@ const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
     if (exist) {
       for (var i = 0; i < temp.length; i++) {
         if (alreadyExist(newStock)) {
-          temp[i].count += newStock.count;
+          temp[i].count = parseInt(temp[i].count) + parseInt(newStock.count);
         }
       }
       setStock({ ...stock, stock: temp });
@@ -47,9 +49,6 @@ const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
       swal("Informasi tidak valid!", "Mohon cek kembali input stock", "error");
     } else {
       addStock(newStock);
-      var data = new FormData();
-      data.append("storeId", stock.storeId);
-      data.append("stock", stock.stock);
 
       var config = {
         method: "post",
@@ -59,7 +58,7 @@ const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
         headers: {
           Authorization: "0f526bf84bfcf6bcf7e27dd64d923396679731d2",
         },
-        data: data,
+        data: stock,
       };
 
       axios(config)

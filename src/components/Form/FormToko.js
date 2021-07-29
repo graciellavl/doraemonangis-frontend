@@ -77,6 +77,27 @@ const FormToko = ({ currentToko, eventhandler }) => {
     }
   };
 
+  const createStock = (storeId) => {
+    var data = new FormData();
+    data.append("storeId", storeId);
+    data.append("stock", []);
+
+    var config = {
+      method: "post",
+      url: `${API_URL}/stock/add`,
+      headers: {
+        Authorization: "0f526bf84bfcf6bcf7e27dd64d923396679731d2",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {})
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <label htmlFor="storename">Nama Toko</label>

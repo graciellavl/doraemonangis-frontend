@@ -55,14 +55,12 @@ const DetailToko = () => {
   const getName = (id) => {
     for (var i = 0; i < varian.length; i++) {
       if (id === varian[i]._id) return varian[i].varianname;
-      else return "";
     }
   };
 
   const getDesc = (id) => {
     for (var i = 0; i < varian.length; i++) {
       if (id === varian[i]._id) return varian[i].variandescription;
-      else return "";
     }
   };
 
