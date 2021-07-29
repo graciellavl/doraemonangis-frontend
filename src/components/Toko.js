@@ -4,6 +4,7 @@ import BaseModal from "./Modal/BaseModal";
 
 import axios from "axios";
 import FormToko from "./Form/FormToko";
+import { API_URL } from "../constant/constant";
 
 const Toko = () => {
   const [listToko, setListToko] = useState([]);
@@ -18,7 +19,7 @@ const Toko = () => {
 
   const getData = () => {
     axios
-      .get("http://localhost:5000/store")
+      .get(`${API_URL}/store`)
       .then((res) => setListToko(res.data))
       .catch((err) => console.log(err));
   };

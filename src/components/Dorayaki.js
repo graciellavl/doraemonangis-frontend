@@ -4,6 +4,7 @@ import FormVarian from "./Form/FormVarian";
 import BaseModal from "./Modal/BaseModal";
 
 import axios from "axios";
+import { API_URL } from "../constant/constant";
 
 const Dorayaki = () => {
   const [varianList, setVarianList] = useState([]);
@@ -16,7 +17,7 @@ const Dorayaki = () => {
 
   const getData = () => {
     axios
-      .get("http://localhost:5000/varian")
+      .get(`${API_URL}/varian`)
       .then((res) => setVarianList(res.data))
       .catch((err) => console.log(err));
   };

@@ -6,6 +6,7 @@ import BaseModal from "./Modal/BaseModal";
 import FormStock from "./Form/FormStock";
 import FormTransfer from "./Form/FormTransfer";
 import FormEdit from "./Form/FormEdit";
+import { API_URL } from "../constant/constant";
 
 const DetailToko = () => {
   let { id } = useParams();
@@ -45,15 +46,15 @@ const DetailToko = () => {
 
   const getData = (id) => {
     axios
-      .get(`http://localhost:5000/store/${id}`)
+      .get(`${API_URL}/store/${id}`)
       .then((res) => setDetail(res.data))
       .catch((err) => console.log(err));
     axios
-      .get(`http://localhost:5000/stock/details/${id}`)
+      .get(`${API_URL}/stock/details/${id}`)
       .then((res) => setStock(res.data[0]))
       .catch((err) => console.log(err));
     axios
-      .get(`http://localhost:5000/varian`)
+      .get(`${API_URL}/varian`)
       .then((res) => setVarian(res.data))
       .catch((err) => console.log(err));
   };

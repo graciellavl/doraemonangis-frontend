@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../constant/constant";
 
 const Navbar = ({ nav, eventhandler }) => {
   let { pathname } = useLocation();
@@ -20,7 +21,7 @@ const Navbar = ({ nav, eventhandler }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/store")
+      .get(`${API_URL}/store`)
       .then((res) => setListToko(res.data))
       .catch((err) => console.log(err));
   }, []);

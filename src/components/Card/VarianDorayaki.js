@@ -1,4 +1,5 @@
 import React from "react";
+import { API_URL } from "../../constant/constant";
 
 const VarianDorayaki = ({ varian }) => {
   return (
@@ -15,7 +16,7 @@ const VarianDorayaki = ({ varian }) => {
       }}
     >
       <img
-        src={`http://localhost:5000/${varian.varianimage}`}
+        src={`${API_URL}/${varian.varianimage}`}
         alt={""}
         width={"100%"}
         height={"180px"}

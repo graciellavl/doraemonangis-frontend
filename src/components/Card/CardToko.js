@@ -32,7 +32,7 @@ const CardToko = ({ toko }) => {
       }}
     >
       <img
-        src={`http://localhost:5000/${toko.storeimage}`}
+        src={`${API_URL}/${toko.storeimage}`}
         alt={""}
         width={"150px"}
         height={"100%"}

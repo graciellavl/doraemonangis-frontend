@@ -19,14 +19,14 @@ const FormTransfer = ({ eventhandler, varian }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/store/`)
+      .get(`${API_URL}/store/`)
       .then((res) => setToko(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   const getStockData = (id, isAsal) => {
     axios
-      .get(`http://localhost:5000/stock/details/${id}`)
+      .get(`${API_URL}/stock/details/${id}`)
       .then((res) =>
         isAsal ? setStockAsal(res.data[0]) : setStockTujuan(res.data[0])
       )
@@ -78,29 +78,29 @@ const FormTransfer = ({ eventhandler, varian }) => {
       transferedStock.varianId === ""
     ) {
       swal("Informasi tidak valid!", "Mohon cek kembali input stock", "error");
-    // } else {
-    //   getStockData(asal, true);
-    //   getStockData(tujuan, false);
+      // } else {
+      //   getStockData(asal, true);
+      //   getStockData(tujuan, false);
 
-    //   console.log("raw stockAsal", stockAsal);
-    //   console.log("raw stockTujuan", stockTujuan);
+      //   console.log("raw stockAsal", stockAsal);
+      //   console.log("raw stockTujuan", stockTujuan);
 
-    //   if (
-    //     changeStock(stockAsal, transferedStock, true) &&
-    //     changeStock(stockTujuan, transferedStock, false)
-    //   ) {
-    //     console.log("transferedStock", transferedStock);
-    //     console.log("stockAsal", stockAsal);
-    //     console.log("stockTujuan", stockTujuan);
-    //     // if (postData(tokoAsal)) {
-    //     //   if (postData(tokoTujuan)) {
-    //     //     swal("Success", "Stock berhasil ditambahkan!", "success");
-    //     //   }
-    //     // }
-    //     eventhandler();
-    //   } else {
-    //     swal("Transfer Gagal", "Stock toko asal tidak cukup!", "error");
-    //   }
+      //   if (
+      //     changeStock(stockAsal, transferedStock, true) &&
+      //     changeStock(stockTujuan, transferedStock, false)
+      //   ) {
+      //     console.log("transferedStock", transferedStock);
+      //     console.log("stockAsal", stockAsal);
+      //     console.log("stockTujuan", stockTujuan);
+      //     // if (postData(tokoAsal)) {
+      //     //   if (postData(tokoTujuan)) {
+      //     //     swal("Success", "Stock berhasil ditambahkan!", "success");
+      //     //   }
+      //     // }
+      //     eventhandler();
+      //   } else {
+      //     swal("Transfer Gagal", "Stock toko asal tidak cukup!", "error");
+      //   }
     }
   };
 
