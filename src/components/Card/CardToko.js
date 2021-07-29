@@ -1,7 +1,22 @@
+import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from "../../constant/constant";
 
-const CardToko = ({toko}) => {
+const CardToko = ({ toko }) => {
+  const deleteStore = (id) => {
+    console.log(id);
+
+    axios
+      .delete(`${API_URL}/store/${id}`)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    window.location.reload();
+  };
   return (
     <div
       style={{
@@ -28,14 +43,32 @@ const CardToko = ({toko}) => {
         <p>{toko.kecamatan}</p>
         <p>{toko.provinsi}</p>
       </div>
-      <Link
-        to={`toko/${toko._id}`}
-        style={{ color: "#333333", textDecoration: "none" }}
+
+      <div
+        style={{
+          position: "absolute",
+          bottom: "15px",
+          right: "15px",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
-        <div style={{ position: "absolute", bottom: "15px", right: "15px" }}>
-          Lihat Toko
+        <div
+          onClick={() => deleteStore(toko._id)}
+          style={{ marginRight: "20px" }}
+          className={"onHover"}
+        >
+          Hapus
         </div>
-      </Link>
+        <div>
+          <Link
+            to={`toko/${toko._id}`}
+            style={{ color: "#333333", textDecoration: "none" }}
+          >
+            Lihat Toko
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

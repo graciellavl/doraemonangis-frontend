@@ -4,14 +4,24 @@ import axios from "axios";
 import { API_URL } from "../../constant/constant";
 import swal from "sweetalert";
 
-const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
+const FormEdit = ({
+  currentVarian,
+  eventhandler,
+  varianName,
+  varianId,
+  varianStock,
+  storeId,
+}) => {
   const [stock, setStock] = useState(
     currentVarian
       ? { storeId: currentVarian.storeId, stock: currentVarian.stock }
       : { storeId: storeId, stock: [] }
   );
 
-  const [newStock, setNewStock] = useState({ varianId: "", count: 0 });
+  const [newStock, setNewStock] = useState({
+    varianId: varianId,
+    count: varianStock,
+  });
 
   const addStock = (newStock) => {
     let temp = stock.stock;
@@ -21,7 +31,7 @@ const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
     if (exist) {
       for (var i = 0; i < temp.length; i++) {
         if (alreadyExist(newStock)) {
-          temp[i].count = parseInt(temp[i].count) + parseInt(newStock.count);
+          temp[i].count = parseInt(newStock.count);
         }
       }
       setStock({ ...stock, stock: temp });
@@ -60,7 +70,7 @@ const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
       axios(config)
         .then(function (response) {
           eventhandler();
-          swal("Success", "Stock berhasil ditambahkan!", "success");
+          swal("Success", "Stock berhasil diubah!", "success");
         })
         .catch(function (error) {
           console.log(error);
@@ -71,32 +81,14 @@ const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
 
   return (
     <div>
-      <label htmlFor="varianId">Pilih Varian</label>
-      <select
-        id="selectedVarian"
-        onChange={(e) => setNewStock({ ...newStock, varianId: e.target.value })}
-      >
-        <option value="" disabled selected>
-          Pilih varian
-        </option>
-        {varian &&
-          varian.map((item) => {
-            return (
-              <option value={item._id} key={item.varianname}>
-                {item.varianname}
-              </option>
-            );
-          })}
-      </select>
-      <br />
-      <br />
+      <h2>{varianName}</h2>
       <label htmlFor="count">Jumlah</label>
       <input
         type="number"
         id="count"
         name="count"
-        placeholder={"0"}
-        value={stock.desc}
+        placeholder={varianStock}
+        value={stock.count}
         onChange={(e) => setNewStock({ ...newStock, count: e.target.value })}
       />
 
@@ -113,4 +105,4 @@ const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
   );
 };
 
-export default FormStock;
+export default FormEdit;

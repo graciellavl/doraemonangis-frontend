@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import BaseModal from "./Modal/BaseModal";
 import FormStock from "./Form/FormStock";
 import FormTransfer from "./Form/FormTransfer";
+import FormEdit from "./Form/FormEdit";
 
 const DetailToko = () => {
   let { id } = useParams();
@@ -13,11 +14,16 @@ const DetailToko = () => {
   const [varian, setVarian] = useState();
   const [submit, setSubmit] = useState(0);
 
+  const [selectedVarian, setSelectedVarian] = useState();
+  const [varianStock, setVarianStock] = useState();
+
   const [openTambahStok, setOpenTambahStok] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [openTransfer, setOpenTransfer] = useState(false);
   const closeModal = () => {
     setOpenTambahStok(false);
     setOpenTransfer(false);
+    setOpenEdit(false);
   };
   const [search, setSearch] = useState("");
 
@@ -75,7 +81,20 @@ const DetailToko = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (!detail || !varian) return <div>Loading . . .</div>;
+  if (!detail || !varian)
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "100vh",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        Loading . . .
+      </div>
+    );
   return (
     <div style={{ margin: "60px 80px 0px", height: "100%" }}>
       <div
@@ -157,9 +176,11 @@ const DetailToko = () => {
             <th style={{ width: "20%" }}>Varian</th>
             <th style={{ width: "60%" }}>Deskripsi</th>
             <th style={{ width: "20%" }}>Stok</th>
+            <th>Edit</th>
           </thead>
           <tbody>
             {stock.stock
+              .filter((stock) => stock.count > 0)
               .filter((stock) =>
                 getName(stock.varianId)
                   .toLowerCase()
@@ -177,6 +198,16 @@ const DetailToko = () => {
                     <td>{getName(stock.varianId)}</td>
                     <td>{getDesc(stock.varianId)}</td>
                     <td>{stock.count}</td>
+                    <td
+                      className={"onHover"}
+                      onClick={() => {
+                        setSelectedVarian(stock.varianId);
+                        setOpenEdit(true);
+                        setVarianStock(stock.count);
+                      }}
+                    >
+                      Edit
+                    </td>
                   </tr>
                 );
               })}
@@ -198,6 +229,18 @@ const DetailToko = () => {
           <FormStock
             eventhandler={submitForm}
             varian={varian}
+            storeId={detail._id}
+            currentVarian={stock}
+          />
+        </BaseModal>
+      )}
+      {openEdit && (
+        <BaseModal closeModal={closeModal}>
+          <FormEdit
+            eventhandler={submitForm}
+            varianName={getName(selectedVarian)}
+            varianId={selectedVarian}
+            varianStock={varianStock}
             storeId={detail._id}
             currentVarian={stock}
           />

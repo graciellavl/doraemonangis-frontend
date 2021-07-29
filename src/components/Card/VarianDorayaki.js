@@ -23,7 +23,20 @@ const VarianDorayaki = ({ varian }) => {
       <h2 style={{ marginTop: "15px", marginBottom: "10px" }}>
         {varian.varianname}
       </h2>
-      <p>{varian.variandescription}</p>
+      <p style={{ overflowY: "auto", height: "calc(100% - 230px)" }}>
+        {varian.variandescription}
+      </p>
+      {/* <div
+        style={{
+          textAlign: "center",
+          position: "absolute",
+          bottom: "15px",
+          right: "15px",
+        }}
+        className={"onHover"}
+      >
+        Hapus Varian
+      </div> */}
     </div>
   );
 };
