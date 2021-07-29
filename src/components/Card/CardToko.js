@@ -1,22 +1,38 @@
 import axios from "axios";
 import React from "react";
 import { Link } from "react-router-dom";
+import swal from "sweetalert";
 import { API_URL } from "../../constant/constant";
 
 const CardToko = ({ toko }) => {
-  const deleteStore = (id) => {
-    console.log(id);
+  const deleteConfirmation = (id) => {
+    swal({
+      title: "Apakah kamu yakin?",
+      text: "Kamu tidak dapat mengembalikan toko yang sudah dihapus!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deleteStore(id);
+      } else {
+        swal("Toko tidak jadi dihapus");
+      }
+    });
+  };
 
+  const deleteStore = (id) => {
     axios
       .delete(`${API_URL}/store/${id}`)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        swal("Sukses", "Toko berhasil dihapus!", "success");
       })
       .catch(function (error) {
         console.log(error);
       });
     window.location.reload();
   };
+
   return (
     <div
       style={{
@@ -54,7 +70,7 @@ const CardToko = ({ toko }) => {
         }}
       >
         <div
-          onClick={() => deleteStore(toko._id)}
+          onClick={() => deleteConfirmation(toko._id)}
           style={{ marginRight: "20px" }}
           className={"onHover"}
         >
