@@ -9,8 +9,8 @@ const FormTransfer = ({ eventhandler, varian }) => {
 
   const [asal, setAsal] = useState();
   const [tujuan, setTujuan] = useState();
-  const [stockAsal, setStockAsal] = useState();
-  const [stockTujuan, setStockTujuan] = useState();
+  const [stockAsal, setStockAsal] = useState(null);
+  const [stockTujuan, setStockTujuan] = useState(null);
 
   const [transferedStock, setTransferedStock] = useState({
     varianId: "",
@@ -27,88 +27,98 @@ const FormTransfer = ({ eventhandler, varian }) => {
   const getStockData = (id, isAsal) => {
     axios
       .get(`${API_URL}/stock/details/${id}`)
-      .then((res) =>
-        isAsal ? setStockAsal(res.data[0]) : setStockTujuan(res.data[0])
-      )
+      .then((res) => {
+        isAsal ? setStockAsal(res.data[0]) : setStockTujuan(res.data[0]);
+      })
       .catch((err) => console.log(err));
   };
 
-  const changeStock = (stock, newStock, isAdd) => {
+  const changeStockAsal = (stock, newStock) => {
     let temp = stock.stock;
-    isAdd
-      ? setStockAsal({ ...stock, stock: [] })
-      : setStockTujuan({ ...stock, stock: [] });
+    setStockAsal({ ...stock, stock: [] });
 
     const exist = alreadyExist(newStock, temp);
 
     if (exist) {
       for (var i = 0; i < temp.length; i++) {
         if (exist) {
-          const pengali = isAdd ? 1 : -1;
-          temp[i].count =
-            parseInt(temp[i].count) + parseInt(newStock.count) * pengali;
-          if (temp[i].count < 0) {
-            return false;
-          }
+          temp[i].count = parseInt(temp[i].count) - parseInt(newStock.count);
         }
       }
     } else {
       temp = temp.push(newStock);
     }
-    isAdd
-      ? setStockAsal({ ...stock, stock: temp })
-      : setStockTujuan({ ...stock, stock: temp });
+    setStockAsal({ ...stock, stock: temp });
+    postData(stockAsal, false);
+  };
 
-    return true;
+  const changeStockTujuan = (idTujuan, newStock) => {
+    axios
+      .get(`${API_URL}/stock/details/${idTujuan}`)
+      .then((res) => {
+        changeStock(newStock, res.data[0]);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const changeStock = (newStock, temp) => {
+    let stock = temp ? temp : [];
+    const exist = alreadyExist(newStock, temp);
+    console.log(stock[0]);
+    console.log("exist", exist);
+    if (exist) {
+      for (var i = 0; i < temp.length; i++) {
+        if (exist) {
+          stock[i].count = parseInt(stock[i].count) + parseInt(newStock.count);
+        }
+      }
+    } else {
+      console.log("transferedStock", transferedStock);
+      stock.push(newStock);
+    }
+
+    console.log("tujuan", tujuan);
+    console.log("temp", temp);
+    console.log("stock", stock);
+    setStockTujuan({ storeId: tujuan, stock: stock, _id: temp._id });
+    postData({ storeId: tujuan, stock: stock }, true);
   };
 
   const alreadyExist = (x, stock) => {
-    for (var i = 0; i < stock.length; i++) {
-      if (x.varianId === stock[i].varianId) {
-        return true;
+    if (stock) {
+      for (var i = 0; i < stock.length; i++) {
+        if (x.varianId === stock[i].varianId) {
+          return true;
+        }
       }
+      return false;
     }
     return false;
   };
 
-  const submitAction = () => {
+  const submitAction = async () => {
     if (
       asal === tujuan ||
+      !asal ||
+      !tujuan ||
       transferedStock.count < 0 ||
-      transferedStock.varianId === ""
+      transferedStock.varianId === "" ||
+      getCount(transferedStock.varianId) < transferedStock.count
     ) {
       swal("Informasi tidak valid!", "Mohon cek kembali input stock", "error");
-      // } else {
-      //   getStockData(asal, true);
-      //   getStockData(tujuan, false);
-
-      //   console.log("raw stockAsal", stockAsal);
-      //   console.log("raw stockTujuan", stockTujuan);
-
-      //   if (
-      //     changeStock(stockAsal, transferedStock, true) &&
-      //     changeStock(stockTujuan, transferedStock, false)
-      //   ) {
-      //     console.log("transferedStock", transferedStock);
-      //     console.log("stockAsal", stockAsal);
-      //     console.log("stockTujuan", stockTujuan);
-      //     // if (postData(tokoAsal)) {
-      //     //   if (postData(tokoTujuan)) {
-      //     //     swal("Success", "Stock berhasil ditambahkan!", "success");
-      //     //   }
-      //     // }
-      //     eventhandler();
-      //   } else {
-      //     swal("Transfer Gagal", "Stock toko asal tidak cukup!", "error");
-      //   }
+    } else {
+      changeStockAsal(stockAsal, transferedStock);
+      changeStockTujuan(stockTujuan, transferedStock);
+      eventhandler();
     }
   };
 
-  const postData = (data, idStock) => {
+  const postData = (data, tujuan) => {
+    console.log(data);
     var config = {
       method: "post",
-      url: idStock
-        ? `${API_URL}/stock/update/${idStock._id}`
+      url: data._id
+        ? `${API_URL}/stock/update/${data._id}`
         : `${API_URL}/stock/add`,
       headers: {
         Authorization: "0f526bf84bfcf6bcf7e27dd64d923396679731d2",
@@ -118,6 +128,8 @@ const FormTransfer = ({ eventhandler, varian }) => {
 
     axios(config)
       .then(function (response) {
+        tujuan && swal("Success", "Stock berhasil ditambahkan!", "success");
+        // window.location.reload();
         eventhandler();
         return true;
       })
@@ -128,10 +140,28 @@ const FormTransfer = ({ eventhandler, varian }) => {
       });
   };
 
+  const getName = (id) => {
+    for (var i = 0; i < varian.length; i++) {
+      if (id === varian[i]._id) return varian[i].varianname;
+    }
+  };
+
+  const getCount = (id) => {
+    for (var i = 0; i < stockAsal.stock.length; i++) {
+      if (id === stockAsal.stock[i].varianId) return stockAsal.stock[i].count;
+    }
+  };
+
   return (
     <div>
       <label htmlFor="varianId">Pilih Toko Asal</label>
-      <select id="selectedVarian" onChange={(e) => setAsal(e.target.value)}>
+      <select
+        id="selectedVarian"
+        onChange={(e) => {
+          setAsal(e.target.value);
+          getStockData(e.target.value, true);
+        }}
+      >
         <option value="" disabled selected>
           Pilih Toko Asal
         </option>
@@ -144,6 +174,42 @@ const FormTransfer = ({ eventhandler, varian }) => {
             );
           })}
       </select>
+
+      <br />
+      <br />
+      <label htmlFor="varianId">Pilih Varian</label>
+      <select
+        id="selectedVarian"
+        onChange={(e) =>
+          setTransferedStock({ ...transferedStock, varianId: e.target.value })
+        }
+      >
+        <option value="" disabled selected>
+          Pilih varian
+        </option>
+        {stockAsal &&
+          stockAsal.stock.map((item) => {
+            return (
+              <option value={item.varianId} key={item.varianId}>
+                {getName(item.varianId)}
+              </option>
+            );
+          })}
+      </select>
+      <br />
+      <br />
+      <label htmlFor="count">
+        Jumlah (Max: {stockAsal ? getCount(transferedStock.varianId) : "~"})
+      </label>
+      <input
+        type="number"
+        id="count"
+        name="count"
+        placeholder={"0"}
+        onChange={(e) =>
+          setTransferedStock({ ...transferedStock, count: e.target.value })
+        }
+      />
       <br />
       <br />
       <label htmlFor="varianId">Pilih Toko Tujuan</label>
@@ -160,39 +226,6 @@ const FormTransfer = ({ eventhandler, varian }) => {
             );
           })}
       </select>
-      <br />
-      <br />
-      <label htmlFor="varianId">Pilih Varian</label>
-      <select
-        id="selectedVarian"
-        onChange={(e) =>
-          setTransferedStock({ ...transferedStock, varianId: e.target.value })
-        }
-      >
-        <option value="" disabled selected>
-          Pilih varian
-        </option>
-        {varian &&
-          varian.map((item) => {
-            return (
-              <option value={item._id} key={item.varianname}>
-                {item.varianname}
-              </option>
-            );
-          })}
-      </select>
-      <br />
-      <br />
-      <label htmlFor="count">Jumlah</label>
-      <input
-        type="number"
-        id="count"
-        name="count"
-        placeholder={"0"}
-        onChange={(e) =>
-          setTransferedStock({ ...transferedStock, count: e.target.value })
-        }
-      />
       <br />
       <br />
       <button

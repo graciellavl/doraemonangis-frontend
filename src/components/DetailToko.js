@@ -194,7 +194,7 @@ const DetailToko = () => {
                       background: index % 2 === 0 ? "#B9E5FF" : "",
                       textAlign: "center",
                     }}
-                    key={stock._id}
+                    key={index}
                   >
                     <td>{getName(stock.varianId)}</td>
                     <td>{getDesc(stock.varianId)}</td>
