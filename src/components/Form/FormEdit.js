@@ -26,7 +26,6 @@ const FormEdit = ({
   const addStock = (newStock) => {
     let temp = stock.stock;
     setStock({ ...stock, stock: [] });
-    const exist = alreadyExist(newStock);
 
     for (var i = 0; i < temp.length; i++) {
       if (temp[i].varianId === newStock.varianId) {
@@ -34,15 +33,6 @@ const FormEdit = ({
       }
     }
     setStock({ ...stock, stock: temp });
-  };
-
-  const alreadyExist = (x) => {
-    for (var i = 0; i < stock.stock.length; i++) {
-      if (x.varianId === stock.stock[i].varianId) {
-        return true;
-      }
-    }
-    return false;
   };
 
   const submitAction = () => {
@@ -75,6 +65,7 @@ const FormEdit = ({
   return (
     <div>
       <h2>{varianName}</h2>
+      <br />
       <label htmlFor="count">Jumlah</label>
       <input
         type="number"
@@ -92,7 +83,7 @@ const FormEdit = ({
         onClick={() => submitAction()}
         style={{ height: "30px", margin: "auto" }}
       >
-        Tambah Stock
+        Ubah Stock
       </button>
     </div>
   );
