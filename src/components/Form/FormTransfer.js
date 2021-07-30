@@ -10,7 +10,6 @@ const FormTransfer = ({ eventhandler, varian }) => {
   const [asal, setAsal] = useState();
   const [tujuan, setTujuan] = useState();
   const [stockAsal, setStockAsal] = useState(null);
-  const [stockTujuan, setStockTujuan] = useState(null);
 
   const [transferedStock, setTransferedStock] = useState({
     varianId: "",
@@ -24,12 +23,10 @@ const FormTransfer = ({ eventhandler, varian }) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const getStockData = (id, isAsal) => {
+  const getStockData = (id) => {
     axios
       .get(`${API_URL}/stock/details/${id}`)
-      .then((res) => {
-        isAsal ? setStockAsal(res.data[0]) : setStockTujuan(res.data[0]);
-      })
+      .then((res) => setStockAsal(res.data[0]))
       .catch((err) => console.log(err));
   };
 
@@ -41,7 +38,7 @@ const FormTransfer = ({ eventhandler, varian }) => {
 
     if (exist) {
       for (var i = 0; i < temp.length; i++) {
-        if (exist) {
+        if (temp[i].varianId === newStock.varianId) {
           temp[i].count = parseInt(temp[i].count) - parseInt(newStock.count);
         }
       }
@@ -55,27 +52,25 @@ const FormTransfer = ({ eventhandler, varian }) => {
   const changeStockTujuan = (idTujuan, newStock) => {
     axios
       .get(`${API_URL}/stock/details/${idTujuan}`)
-      .then((res) => {
-        changeStock(newStock, res.data[0]);
-      })
+      .then((res) => changeStock(newStock, res.data[0]))
       .catch((err) => console.log(err));
   };
 
   const changeStock = (newStock, temp) => {
-    let stock = temp ? temp : [];
-    const exist = alreadyExist(newStock, temp);
+    let stock = temp ? temp : { storeId: tujuan, stock: [] };
+    const exist = alreadyExist(newStock, stock.stock);
     if (exist) {
-      for (var i = 0; i < temp.length; i++) {
-        if (exist) {
-          stock[i].count = parseInt(stock[i].count) + parseInt(newStock.count);
+      for (var i = 0; i < stock.stock.length; i++) {
+        if (stock.stock[i].varianId === newStock.varianId) {
+          stock.stock[i].count =
+            parseInt(stock.stock[i].count) + parseInt(newStock.count);
         }
       }
     } else {
-      stock.push(newStock);
+      stock.stock.push(newStock);
     }
 
-    setStockTujuan({ storeId: tujuan, stock: stock });
-    postData({ storeId: tujuan, stock: stock }, true);
+    postData(stock, true);
   };
 
   const alreadyExist = (x, stock) => {
@@ -102,13 +97,12 @@ const FormTransfer = ({ eventhandler, varian }) => {
       swal("Informasi tidak valid!", "Mohon cek kembali input stock", "error");
     } else {
       changeStockAsal(stockAsal, transferedStock);
-      changeStockTujuan(stockTujuan, transferedStock);
+      changeStockTujuan(tujuan, transferedStock);
       eventhandler();
     }
   };
 
   const postData = (data, tujuan) => {
-    console.log(data);
     var config = {
       method: "post",
       url: data._id
@@ -123,7 +117,7 @@ const FormTransfer = ({ eventhandler, varian }) => {
     axios(config)
       .then(function (response) {
         tujuan && swal("Success", "Stock berhasil ditambahkan!", "success");
-        // window.location.reload();
+        window.location.reload();
         eventhandler();
         return true;
       })
@@ -153,7 +147,7 @@ const FormTransfer = ({ eventhandler, varian }) => {
         id="selectedVarian"
         onChange={(e) => {
           setAsal(e.target.value);
-          getStockData(e.target.value, true);
+          getStockData(e.target.value);
         }}
       >
         <option value="" disabled selected>

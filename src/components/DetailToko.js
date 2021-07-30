@@ -220,8 +220,6 @@ const DetailToko = () => {
           <FormTransfer
             eventhandler={submitForm}
             varian={varian}
-            currentToko={detail}
-            currentVarian={stock}
           />
         </BaseModal>
       )}

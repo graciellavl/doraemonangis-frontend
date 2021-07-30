@@ -20,7 +20,7 @@ const FormStock = ({ currentVarian, eventhandler, varian, storeId }) => {
 
     if (exist) {
       for (var i = 0; i < temp.length; i++) {
-        if (alreadyExist(newStock)) {
+        if (temp[i].varianId === newStock.varianId) {
           temp[i].count = parseInt(temp[i].count) + parseInt(newStock.count);
         }
       }

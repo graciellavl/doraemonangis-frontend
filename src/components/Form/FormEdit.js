@@ -28,17 +28,12 @@ const FormEdit = ({
     setStock({ ...stock, stock: [] });
     const exist = alreadyExist(newStock);
 
-    if (exist) {
-      for (var i = 0; i < temp.length; i++) {
-        if (alreadyExist(newStock)) {
-          temp[i].count = parseInt(newStock.count);
-        }
+    for (var i = 0; i < temp.length; i++) {
+      if (temp[i].varianId === newStock.varianId) {
+        temp[i].count = parseInt(newStock.count);
       }
-      setStock({ ...stock, stock: temp });
-    } else {
-      temp = temp.push(newStock);
-      setStock({ ...stock, stock: temp });
     }
+    setStock({ ...stock, stock: temp });
   };
 
   const alreadyExist = (x) => {
@@ -58,9 +53,7 @@ const FormEdit = ({
 
       var config = {
         method: "post",
-        url: currentVarian
-          ? `${API_URL}/stock/update/${currentVarian._id}`
-          : `${API_URL}/stock/add`,
+        url: `${API_URL}/stock/update/${currentVarian._id}`,
         headers: {
           Authorization: "0f526bf84bfcf6bcf7e27dd64d923396679731d2",
         },

@@ -5,10 +5,12 @@ import BaseModal from "./Modal/BaseModal";
 import axios from "axios";
 import FormToko from "./Form/FormToko";
 import { API_URL } from "../constant/constant";
+import FormTransfer from "./Form/FormTransfer";
 
 const Toko = () => {
   const [listToko, setListToko] = useState([]);
   const [openToko, setOpenToko] = useState(false);
+  const [varian, setVarian] = useState();
   const [openTransfer, setOpenTransfer] = useState(false);
   const closeModal = () => {
     setOpenToko(false);
@@ -21,6 +23,10 @@ const Toko = () => {
     axios
       .get(`${API_URL}/store`)
       .then((res) => setListToko(res.data))
+      .catch((err) => console.log(err));
+    axios
+      .get(`${API_URL}/varian`)
+      .then((res) => setVarian(res.data))
       .catch((err) => console.log(err));
   };
 
@@ -126,8 +132,7 @@ const Toko = () => {
 
       {openTransfer && (
         <BaseModal closeModal={closeModal}>
-          transfer
-          {/* <FormVarian currentVarian={varian} /> */}
+          <FormTransfer eventhandler={submitForm} varian={varian} />
         </BaseModal>
       )}
     </div>
