@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# Doraemonangis | Seleksi Tim Laboratorium Programming 2019 Tahap II
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Nama    : Graciella Valeska Liander
+NIM     : 18219075
 
-## Available Scripts
+## Background
+Doremonangis, robot dari masa depan sedang mencoba untuk membuka suatu bisnis pada bidang F&B, yaitu membuat dorayaki kekinian (rasa pempek, rasa KFC, rasa nasi padang, dan lain-lain) di tahun 2021 ini. Mobita, teman baiknya membantunya untuk mendirikan usaha dorayakinya dengan menjadi Co-Founder sekaligus CTO dari usaha Doremonangis yang bernama “Stand with Dorayaki”.
 
-In the project directory, you can run:
+
+Selaku CTO, Mobita tentu dipekerjakan oleh Doremonangis untuk membuat sebuah sistem untuk memanajemen tokonya. Akan tetapi, karena Mobita adalah anak yang pemalas, toko Doremonangis sudah memiliki banyak franchise di berbagai tempat. Sehingga, sistem yang dibuat harus menyesuaikan kebutuhan bisnis dari tokonya, apalagi sekarang banyak toko yang mulai kehabisan stok Dorayaki rasa pempek!
+
+
+Oleh karena itu, sebagai teman Mobita yang berkuliah di バンドン工科大学 (ITB) cabang Shinjuku, kalian akan dipekerjakan oleh Mobita untuk membuat sistem ini.
+
+Spesifikasi lengkap: [Spesifikasi Seleksi Tim Laboratorium Programming 2019 Tahap II](https://docs.google.com/document/u/1/d/e/2PACX-1vQ-TtktsZN6Iusb1Rog-l_kAstH062NIk0ltA83RXsUXgSoZk8QhjZb4WfRUpzct2-k9U0HfgNnuZaK/pub)
+
+
+## Tech Stack
+- **Front-End**: React.js
+- **Back-End**: Express.js
+- **Database**: MongoDB
+- **ODM**: Mongoose
+
+## How to run?
+
+### `yarn install`
+
+Pertama, install seluruh depedency yang digunakan terlebih dahulu menggunakan `yarn install`
 
 ### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Setelah dependency berhasil diinstall, gunakan command `yarn start` untuk menampilkan program. Program akan berjalan di `localhost:3000` dengan mode development
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## File Structure
 
-### `yarn test`
+```
+doraemonangis-frontend
+│   README.md
+│   index.js
+|   index.css
+|   App.js
+|   App.css
+│
+└───public
+│   │   index.html
+│   │   manifest.json
+│   │
+│   └───image
+│       │   doraemonangis.jpg
+│   
+└───src
+    │
+    └───components
+    │   │   file.js
+    |   |
+    |   └───Card
+    |   │   |   file.js
+    |   │   
+    |   └───Form
+    |   │   |   file.js
+    |   │   
+    |   └───Modal
+    |       |   file.js
+    │
+    └───constant
+        │   constant.js
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Components
+Seluruh component disimpan di folder components. Components terbagi menjadi 3 kelompok component yaitu **card**, **form** dan **modal**. Components yang tidak termasuk kedalam kategori kelompok disimpan langsung didalam folder components
 
-### `yarn build`
+#### Constant
+Constant merupakan kumpulan konstanta yang digunakan dalam aplikasi seperti `API_URL`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Related Information
+Repo Frontend: [doraemonangis-frontend](https://github.com/graciellavl/doraemonangis-frontend)
+Repo Backend: [doraemonangis-backend](https://github.com/graciellavl/doraemonangis-backend)
+Endpoint: [End Point](https://localhost:5000)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+# Thank You

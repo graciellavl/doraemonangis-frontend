@@ -64,8 +64,6 @@ const FormTransfer = ({ eventhandler, varian }) => {
   const changeStock = (newStock, temp) => {
     let stock = temp ? temp : [];
     const exist = alreadyExist(newStock, temp);
-    console.log(stock[0]);
-    console.log("exist", exist);
     if (exist) {
       for (var i = 0; i < temp.length; i++) {
         if (exist) {
@@ -73,14 +71,10 @@ const FormTransfer = ({ eventhandler, varian }) => {
         }
       }
     } else {
-      console.log("transferedStock", transferedStock);
       stock.push(newStock);
     }
 
-    console.log("tujuan", tujuan);
-    console.log("temp", temp);
-    console.log("stock", stock);
-    setStockTujuan({ storeId: tujuan, stock: stock, _id: temp._id });
+    setStockTujuan({ storeId: tujuan, stock: stock });
     postData({ storeId: tujuan, stock: stock }, true);
   };
 
