@@ -1,6 +1,7 @@
 # Doraemonangis | Seleksi Tim Laboratorium Programming 2019 Tahap II
 
 Nama    : Graciella Valeska Liander
+
 NIM     : 18219075
 
 ## Background
@@ -66,18 +67,18 @@ doraemonangis-frontend
         │   constant.js
 ```
 
-#### Components
+### Components
 Seluruh component disimpan di folder components. Components terbagi menjadi 3 kelompok component yaitu **card**, **form** dan **modal**. Components yang tidak termasuk kedalam kategori kelompok disimpan langsung didalam folder components
 
-#### Constant
+### Constant
 Constant merupakan kumpulan konstanta yang digunakan dalam aplikasi seperti `API_URL`
 
 ## Related Information
 Repo Frontend: [doraemonangis-frontend](https://github.com/graciellavl/doraemonangis-frontend)
+
 Repo Backend: [doraemonangis-backend](https://github.com/graciellavl/doraemonangis-backend)
+
 Endpoint: [End Point](https://localhost:5000)
 
-
----
-
-# Thank You
+--- 
+Thank You
